@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Album</title>
+</head>
+<body>
+<h1>Update Album</h1>
+<form action="/album/save" method="post">
+    <input type="hidden" name="albumID" th:value="${album.albumID}">
+    <label>Name:</label>
+    <input type="text" name="albumName" th:value="${album.albumName}" required>
+    <br>
+    <label>Release Date:</label>
+    <input type="date" name="releaseDate" th:value="${album.releaseDate}">
+    <br>
+    <input type="submit" value="Save">
+</form>
+<a href="/album/list">Back to list</a>
+</body>
+</html>

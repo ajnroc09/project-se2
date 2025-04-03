@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Album</title>
+</head>
+<body>
+<h1>Add Album</h1>
+<form action="/album/add" method="post">
+    <label>Name:</label>
+    <input type="text" name="albumName" required>
+    <br>
+    <label>Release Date:</label>
+    <input type="date" name="releaseDate">
+    <br>
+    <input type="submit" value="Save">
+</form>
+<a href="/album/list">Back to list</a>
+</body>
+</html>

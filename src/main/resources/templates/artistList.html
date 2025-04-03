@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Artist</title>
+</head>
+<body>
+<h1>Artists</h1>
+<a href="/artist/add">Add Artist</a>
+<ul>
+    <th:block th:each="artist : ${artists}">
+        <li>
+            <span th:text="${artist.artistName}"></span>
+            <a th:href="@{'/artist/update/' + ${artist.artistID}}">Edit</a>
+            <a th:href="@{'/artist/delete/' + ${artist.artistID}}">Delete</a>
+        </li>
+    </th:block>
+</ul>
+</body>
+</html>

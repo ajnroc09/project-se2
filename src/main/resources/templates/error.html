@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        h1 { color: red; }
+    </style>
+</head>
+<body>
+<h1>Oops! Có lỗi xảy ra</h1>
+<p th:text="${errorMessage}"></p>
+<a href="/">Quay lại trang chủ</a>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Song</title>
+</head>
+<body>
+<h1>Update Song</h1>
+
+<form th:action="@{/song/save}" method="post">
+    <!-- Song ID (Hidden) -->
+    <input type="hidden" th:value="${song.songID}" name="songID">
+
+    <!-- Title -->
+    <label>Title:</label>
+    <input type="text" th:value="${song.title}" name="title" required>
+    <br>
+
+    <!-- File Path -->
+    <label>File Path:</label>
+    <input type="text" th:value="${song.filePath}" name="filePath" required>
+    <br>
+
+    <!-- Cover Image -->
+    <label>Cover Image URL:</label>
+    <input type="text" th:value="${song.coverImage}" name="coverImage">
+    <br>
+    <img th:if="${song.coverImage}" th:src="${song.coverImage}" alt="Cover Image" width="100">
+    <br>
+
+    <!-- Release Date -->
+    <label>Release Date:</label>
+    <input type="date" th:value="${#dates.format(song.releaseDate, 'yyyy-MM-dd')}" name="releaseDate">
+    <br>
+
+    <!-- Duration -->
+    <label>Duration (seconds):</label>
+    <input type="number" th:value="${song.duration}" name="duration" required>
+    <br>
+
+    <!-- Artists (Multiple Selection) -->
+    <label>Artists:</label>
+    <select name="artistsOfSong" multiple>
+        <option th:each="artist : ${artists}"
+                th:value="${artist.artistID}"
+                th:text="${artist.artistName}"
+                th:selected="${song.artistsOfSong.contains(artist)}">
+        </option>
+    </select>
+    <br>
+
+    <!-- Genres (Multiple Selection) -->
+    <label>Genres:</label>
+    <select name="genresOfSong" multiple>
+        <option th:each="genre : ${genres}"
+                th:value="${genre.genreID}"
+                th:text="${genre.genreName}"
+                th:selected="${song.genresOfSong.contains(genre)}">
+        </option>
+    </select>
+    <br>
+
+    <!-- Album (Dropdown) -->
+    <label>Album:</label>
+    <select name="album">
+        <option th:each="album : ${albums}"
+                th:value="${album.albumID}"
+                th:text="${album.albumName}"
+                th:selected="${song.album.albumID == album.albumID}">
+        </option>
+    </select>
+    <br>
+
+    <!-- Save Button -->
+    <button type="submit">Save</button>
+</form>
+
+<a href="/song/list">Back to List</a>
+</body>
+</html>

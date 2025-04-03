@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Songs</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>Song List</h1>
+<a href="/song/add">Add New Song</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>File Path</th>
+        <th>Cover Image</th>
+        <th>Release Date</th>
+        <th>Duration (sec)</th>
+        <th>Artists</th>
+        <th>Genres</th>
+        <th>Album</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="song : ${songs}">
+        <td th:text="${song.songID}"></td>
+        <td th:text="${song.title}"></td>
+        <td th:text="${song.filePath}"></td>
+        <td>
+            <img th:if="${song.coverImage}" th:src="${song.coverImage}" alt="Cover Image" width="50">
+            <span th:unless="${song.coverImage}">No Image</span>
+        </td>
+        <td th:text="${song.releaseDate}"></td>
+        <td th:text="${song.duration}"></td>
+        <td>
+            <ul>
+                <li th:each="artist : ${song.artistsOfSong}" th:text="${artist.artistName}"></li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="genre : ${song.genresOfSong}" th:text="${genre.genreName}"></li>
+            </ul>
+        </td>
+        <td th:text="${song.album.albumName}"></td>
+        <td>
+            <a th:href="@{'/song/update/' + ${song.songID}}">Edit</a> |
+            <a th:href="@{'/song/delete/' + ${song.songID}}" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

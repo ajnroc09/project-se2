@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Artist</title>
+</head>
+<body>
+<h1>Update Artist</h1>
+<form th:action="@{'/artist/save'}" method="post">
+    <input type="hidden" th:value="${artist.artistID}" name="artistID">
+    <input type="text" th:value="${artist.artistName}" name="artistName" required>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>
