@@ -56,12 +56,6 @@ public class AlbumController {
 		return "albumUpdate";
 	}
 
-	@PostMapping(value = "/save")
-	public String saveUpdate(Album album) {
-		albumRepository.save(album);
-		return "redirect:/album/list";
-	}
-
 	@GetMapping(value = "/add")
 	public String addAlbum(Model model) {
 		Album album = new Album();
@@ -76,6 +70,7 @@ public class AlbumController {
 
 	@PostMapping(value = "/add")
 	public String addAlbum(Album album) {
+		System.out.println(">>> Album name: " + album.getAlbumName());
 		albumRepository.save(album);
 		return "redirect:/album/list";
 	}

@@ -2,6 +2,7 @@ package edu.hanu.fit.se2.project.music_web.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Album {
 	private String albumName;
 
 	@Column
-	private Date releaseDate;
+	private LocalDate releaseDate;
 
 	@Column(length = 255)
 	private String coverImage;
@@ -52,11 +53,11 @@ public class Album {
 		this.albumName = albumName;
 	}
 
-	public Date getReleaseDate() {
+	public LocalDate getReleaseDate() {
 		return releaseDate;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
+	public void setReleaseDate(LocalDate  releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 

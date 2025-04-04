@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Add Album</title>
 </head>
 <body>
-<h1>Add Album</h1>
-<form action="/album/add" method="post">
-    <label>Name:</label>
-    <input type="text" name="albumName" required>
-    <br>
-    <label>Release Date:</label>
-    <input type="date" name="releaseDate">
-    <br>
-    <input type="submit" value="Save">
+<h1>Add New Album</h1>
+
+<form th:action="@{/album/add}" th:object="${album}" method="post">
+    <label for="albumName">Album Name:</label>
+    <input type="text" th:field="*{albumName}" id="albumName" required />
+    <br/><br/>
+
+    <label for="releaseDate">Release Date:</label>
+    <input type="date" th:field="*{releaseDate}" id="releaseDate" />
+    <br/><br/>
+
+    <label for="coverImage">Cover Image URL:</label>
+    <input type="text" th:field="*{coverImage}" id="coverImage" />
+    <br/><br/>
+
+    <!-- Chưa xử lý phần artist & song -->
+
+    <button type="submit">Add Album</button>
 </form>
-<a href="/album/list">Back to list</a>
 </body>
 </html>
