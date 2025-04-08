@@ -14,14 +14,9 @@ public class Genre {
 	@Column(nullable = false, length = 255)
 	private String genreName;
 
-
 	//----------
 	//relationship
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "genre_song",
-			joinColumns = @JoinColumn(name = "genre_id"),
-			inverseJoinColumns = @JoinColumn(name = "song_id")
-	)
+	@ManyToMany(mappedBy = "genresOfSong")
 	private List<Song> songsOfGenre;
 
 	//getters & setters

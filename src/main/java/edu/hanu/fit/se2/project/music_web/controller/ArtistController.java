@@ -6,7 +6,6 @@ import edu.hanu.fit.se2.project.music_web.model.Artist;
 import edu.hanu.fit.se2.project.music_web.model.Song;
 import edu.hanu.fit.se2.project.music_web.repository.AlbumRepository;
 import edu.hanu.fit.se2.project.music_web.repository.ArtistRepository;
-import edu.hanu.fit.se2.project.music_web.repository.GenreRepository;
 import edu.hanu.fit.se2.project.music_web.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +23,6 @@ import java.util.List;
 public class ArtistController {
 	@Autowired
 	SongRepository songRepository;
-	@Autowired
-	GenreRepository genreRepository;
 	@Autowired
 	ArtistRepository artistRepository;
 	@Autowired

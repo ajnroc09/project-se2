@@ -41,7 +41,11 @@ public class Song {
 
 
 	//genre
-	@ManyToMany (mappedBy = "songsOfGenre")
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "genre_song",
+			joinColumns = @JoinColumn(name = "song_id"),
+			inverseJoinColumns = @JoinColumn(name = "genre_id")
+	)
 	private List<Genre> genresOfSong;
 	//album
 	@ManyToOne

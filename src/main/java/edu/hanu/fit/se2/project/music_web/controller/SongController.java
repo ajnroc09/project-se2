@@ -54,23 +54,27 @@ public class SongController {
 		model.addAttribute("song", song);
 		model.addAttribute("artists", allArtists);
 		model.addAttribute("genres", allGenres);
-		model.addAttribute("albums", allAlbums);
+		model.addAttribute("albumList", allAlbums);
 
 		return "songUpdate";
 	}
-
-
+//--------------
 	@PostMapping(value = "/save")
 	public String saveUpdate(
-			@ModelAttribute Song song,
+			@RequestParam("songID") Long songId,
 			@RequestParam("artistsOfSong") List<Long> artistIds,
 			@RequestParam("genresOfSong") List<Long> genreIds,
 			@RequestParam("album") Long albumId
-	) throws AlbumNotFoundException {
+	) throws AlbumNotFoundException, SongNotFoundException {
+
+		Song song = songRepository.findById(songId)
+				.orElseThrow(() -> new SongNotFoundException("Song not found"));
+
 		List<Artist> artists = artistRepository.findAllById(artistIds);
 		List<Genre> genres = genreRepository.findAllById(genreIds);
-		Album album = albumRepository.findById(song.getAlbum().getAlbumID())
+		Album album = albumRepository.findById(albumId)
 				.orElseThrow(() -> new AlbumNotFoundException("Album not found"));
+
 		song.setArtistsOfSong(artists);
 		song.setGenresOfSong(genres);
 		song.setAlbum(album);
@@ -78,6 +82,25 @@ public class SongController {
 		songRepository.save(song);
 		return "redirect:/song/list";
 	}
+
+//	@PostMapping(value = "/save")
+//	public String saveUpdate(
+//			@ModelAttribute Song song,
+//			@RequestParam("artistsOfSong") List<Long> artistIds,
+//			@RequestParam("genresOfSong") List<Long> genreIds,
+//			@RequestParam("album") Long albumId
+//	) throws AlbumNotFoundException {
+//		List<Artist> artists = artistRepository.findAllById(artistIds);
+//		List<Genre> genres = genreRepository.findAllById(genreIds);
+//		Album album = albumRepository.findById(song.getAlbum().getAlbumID())
+//				.orElseThrow(() -> new AlbumNotFoundException("Album not found"));
+//		song.setArtistsOfSong(artists);
+//		song.setGenresOfSong(genres);
+//		song.setAlbum(album);
+//
+//		songRepository.save(song);
+//		return "redirect:/song/list";
+//	}
 
 	@GetMapping(value = "/add")
 	public String addSong(Model model) {
