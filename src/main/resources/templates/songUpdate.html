@@ -7,40 +7,43 @@
 <body>
 <h1>Update Song</h1>
 
-<form th:action="@{/song/save}" method="post">
+<form th:action="@{/song/save}" th:object="${song}" method="post">
+
     <!-- Song ID (Hidden) -->
-    <input type="hidden" th:value="${song.songID}" name="songID">
+    <input type="hidden" th:field="*{songID}"/>
 
     <!-- Title -->
     <label>Title:</label>
-    <input type="text" th:value="${song.title}" name="title" required>
+    <input type="text" th:field="*{title}" required/>
     <br>
 
     <!-- File Path -->
     <label>File Path:</label>
-    <input type="text" th:value="${song.filePath}" name="filePath" required>
+    <input type="text" th:field="*{filePath}" required/>
     <br>
 
     <!-- Cover Image -->
     <label>Cover Image URL:</label>
-    <input type="text" th:value="${song.coverImage}" name="coverImage">
+    <input type="text" th:field="*{coverImage}"/>
     <br>
-    <img th:if="${song.coverImage}" th:src="${song.coverImage}" alt="Cover Image" width="100">
+    <img th:if="*{coverImage}" th:src="*{coverImage}" alt="Cover Image" width="100"/>
     <br>
 
     <!-- Release Date -->
     <label>Release Date:</label>
-    <input type="date" th:value="${#dates.format(song.releaseDate, 'yyyy-MM-dd')}" name="releaseDate">
+    <input type="date"
+           th:value="${#dates.format(song.releaseDate, 'yyyy-MM-dd')}"
+           name="releaseDate"/>
     <br>
 
     <!-- Duration -->
     <label>Duration (seconds):</label>
-    <input type="number" th:value="${song.duration}" name="duration" required>
+    <input type="number" th:field="*{duration}" required/>
     <br>
 
-    <!-- Artists (Multiple Selection) -->
+    <!-- Artists (Multi-select) -->
     <label>Artists:</label>
-    <select name="artistsOfSong" multiple>
+    <select name="artistsOfSong" multiple required>
         <option th:each="artist : ${artists}"
                 th:value="${artist.artistID}"
                 th:text="${artist.artistName}"
@@ -49,9 +52,9 @@
     </select>
     <br>
 
-    <!-- Genres (Multiple Selection) -->
+    <!-- Genres (Multi-select) -->
     <label>Genres:</label>
-    <select name="genresOfSong" multiple>
+    <select name="genresOfSong" multiple required>
         <option th:each="genre : ${genres}"
                 th:value="${genre.genreID}"
                 th:text="${genre.genreName}"
@@ -60,13 +63,13 @@
     </select>
     <br>
 
-    <!-- Album (Dropdown) -->
+    <!-- Album (Single-select) -->
     <label>Album:</label>
-    <select name="album">
-        <option th:each="album : ${albums}"
-                th:value="${album.albumID}"
-                th:text="${album.albumName}"
-                th:selected="${song.album.albumID == album.albumID}">
+    <select name="album" required>
+        <option th:each="albumItem : ${albums}"
+                th:value="${albumItem.albumID}"
+                th:text="${albumItem.albumName}"
+                th:selected="${song.album.albumID == albumItem.albumID}">
         </option>
     </select>
     <br>

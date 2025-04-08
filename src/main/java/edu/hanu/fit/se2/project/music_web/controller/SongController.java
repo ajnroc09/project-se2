@@ -42,42 +42,54 @@ public class SongController {
 	}
 
 	@GetMapping(value = "/update/{id}")
-	public String updateSong(@PathVariable(value = "id") Long id, Model model)
-			throws SongNotFoundException, AlbumNotFoundException {
+	public String updateSong(@PathVariable("id") Long id, Model model)
+			throws SongNotFoundException {
 		Song song = songRepository.findById(id)
 				.orElseThrow(() -> new SongNotFoundException("Song not found"));
-		Album album = albumRepository.findById(song.getAlbum().getAlbumID())
-				.orElseThrow(() -> new AlbumNotFoundException("Album not found"));
-		List<Artist> artists = new ArrayList<>(song.getArtistsOfSong());
-		List<Genre> genres = new ArrayList<>(song.getGenresOfSong());
 
-		song.setAlbum(album);
-		song.setArtistsOfSong(artists);
-		song.setGenresOfSong(genres);
+		List<Artist> allArtists = artistRepository.findAll();
+		List<Genre> allGenres = genreRepository.findAll();
+		List<Album> allAlbums = albumRepository.findAll();
 
-		model.addAttribute("genres", genres);
 		model.addAttribute("song", song);
-		model.addAttribute("artists",artists);
-		model.addAttribute("album", album);
+		model.addAttribute("artists", allArtists);
+		model.addAttribute("genres", allGenres);
+		model.addAttribute("albums", allAlbums);
+
 		return "songUpdate";
 	}
 
+
 	@PostMapping(value = "/save")
-	public String saveUpdate(Song song) {
+	public String saveUpdate(
+			@ModelAttribute Song song,
+			@RequestParam("artistsOfSong") List<Long> artistIds,
+			@RequestParam("genresOfSong") List<Long> genreIds,
+			@RequestParam("album") Long albumId
+	) throws AlbumNotFoundException {
+		List<Artist> artists = artistRepository.findAllById(artistIds);
+		List<Genre> genres = genreRepository.findAllById(genreIds);
+		Album album = albumRepository.findById(song.getAlbum().getAlbumID())
+				.orElseThrow(() -> new AlbumNotFoundException("Album not found"));
+		song.setArtistsOfSong(artists);
+		song.setGenresOfSong(genres);
+		song.setAlbum(album);
+
 		songRepository.save(song);
 		return "redirect:/song/list";
 	}
-
 
 	@GetMapping(value = "/add")
 	public String addSong(Model model) {
 		Song song = new Song();
 		List<Artist> artists = artistRepository.findAll();
-		Album album = new Album();
+		List<Album> albumList = albumRepository.findAll();
+		List<Genre> genres = genreRepository.findAll();
 
-		model.addAttribute("album", album);
-		model.addAttribute("artists", artists);
 		model.addAttribute("song", song);
+		model.addAttribute("artists", artists);
+		model.addAttribute("albumList", albumList);
+		model.addAttribute("genres", genres);
 		return "songAdd";
 	}
 

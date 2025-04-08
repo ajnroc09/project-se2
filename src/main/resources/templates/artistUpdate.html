@@ -1,15 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Update Artist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Artist</title>
 </head>
 <body>
-<h1>Update Artist</h1>
-<form th:action="@{'/artist/save'}" method="post">
-    <input type="hidden" th:value="${artist.artistID}" name="artistID">
-    <input type="text" th:value="${artist.artistName}" name="artistName" required>
-    <button type="submit">Save</button>
+<h1>Add New Artist</h1>
+
+<!-- Artist Form -->
+<form th:action="@{/artist/update}" th:object="${artist}" method="post" enctype="multipart/form-data">
+
+    <!-- Artist Name -->
+    <div>
+        <label for="artistName">Artist Name:</label>
+        <input type="text" th:field="*{artistName}" id="artistName" required />
+    </div>
+
+    <!-- Bio -->
+    <div>
+        <label for="bio">Biography:</label>
+        <textarea th:field="*{bio}" id="bio" rows="4" cols="50" required></textarea>
+    </div>
+
+    <!-- Image -->
+    <div>
+        <label for="image">Artist Image:</label>
+        <input type="text" th:field="*{image}" id="image" />
+    </div>
+
+    <div>
+        <button type="submit">Save Artist</button>
+    </div>
 </form>
+
+<!-- Link to return to Artist list -->
+<p><a href="/artist/list">Back to Artist List</a></p>
+
 </body>
 </html>

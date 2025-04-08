@@ -23,6 +23,13 @@ public class Album {
 	private String coverImage;
 
 
+	//transient
+	@Transient
+	private List<Long> songIds;
+
+	@Transient
+	private List<Long> artistIds;
+
 	//----------------
 	//relationship
 	@ManyToMany(fetch=FetchType.LAZY)
@@ -36,6 +43,22 @@ public class Album {
 
 	// getters & setters
 
+
+	public List<Long> getSongIds() {
+		return songIds;
+	}
+
+	public void setSongIds(List<Long> songIds) {
+		this.songIds = songIds;
+	}
+
+	public List<Long> getArtistIds() {
+		return artistIds;
+	}
+
+	public void setArtistIds(List<Long> artistIds) {
+		this.artistIds = artistIds;
+	}
 
 	public Long getAlbumID() {
 		return albumID;

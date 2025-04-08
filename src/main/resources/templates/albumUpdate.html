@@ -5,17 +5,52 @@
     <title>Update Album</title>
 </head>
 <body>
-<h1>Update Album</h1>
-<form action="/album/save" method="post">
-    <input type="hidden" name="albumID" th:value="${album.albumID}">
-    <label>Name:</label>
-    <input type="text" name="albumName" th:value="${album.albumName}" required>
-    <br>
-    <label>Release Date:</label>
-    <input type="date" name="releaseDate" th:value="${album.releaseDate}">
-    <br>
-    <input type="submit" value="Save">
+<h2>Update Album</h2>
+
+<form th:action="@{/album/update}" method="post" th:object="${album}">
+    <input type="hidden" th:field="*{albumID}"/>
+
+    <label>Album Name:</label><br/>
+    <input type="text" th:field="*{albumName}" placeholder="Album Title"/><br/><br/>
+
+    <label>Release Date:</label><br/>
+    <input type="date" th:field="*{releaseDate}"/><br/><br/>
+
+    <label>Songs:</label><br/>
+    <select multiple th:field="*{songIds}" size="5">
+        <option th:each="song : ${songs}"
+                th:value="${song.songID}"
+                th:text="${song.title}"></option>
+    </select>
+    <br/><br/>
+
+    <label>Artists:</label><br/>
+    <select multiple th:field="*{artistIds}" size="5">
+        <option th:each="artist : ${artists}"
+                th:value="${artist.artistID}"
+                th:text="${artist.artistName}"></option>
+    </select><br/><br/>
+
+    <button type="submit">Save Album</button>
 </form>
-<a href="/album/list">Back to list</a>
+
+<!-- Optional warnings -->
+<p th:if="${#lists.isEmpty(songs)}">⚠️ No songs available yet. You can add songs later.</p>
+<p th:if="${#lists.isEmpty(artists)}">⚠️ No artists available yet. You can add artists later.</p>
+
 </body>
 </html>
+
+
+<!--<h1>Update Album</h1>-->
+<!--<form action="/album/save" method="post">-->
+<!--    <input type="hidden" name="albumID" th:value="${album.albumID}">-->
+<!--    <label>Name:</label>-->
+<!--    <input type="text" name="albumName" th:value="${album.albumName}" required>-->
+<!--    <br>-->
+<!--    <label>Release Date:</label>-->
+<!--    <input type="date" name="releaseDate" th:value="${album.releaseDate}">-->
+<!--    <br>-->
+<!--    <input type="submit" value="Save">-->
+<!--</form>-->
+<!--<a href="/album/list">Back to list</a>-->

@@ -55,6 +55,25 @@ public class AlbumController {
 		model.addAttribute("album",album);
 		return "albumUpdate";
 	}
+	//---------------------------------
+	@PostMapping("/update")
+	public String UpdatedAlbum(Album album) {
+		// Convert songIds and artistIds back to full objects
+		List<Song> selectedSongs = songRepository.findAllById(album.getSongIds());
+		List<Artist> selectedArtists = artistRepository.findAllById(album.getArtistIds());
+
+		for (Song song : selectedSongs) {
+			song.setAlbum(album); // important for OneToMany
+		}
+
+		album.setSongsOfAlbum(selectedSongs);
+		album.setArtistsOfAlbum(selectedArtists);
+
+		albumRepository.save(album);
+		return "redirect:/album/list";
+	}
+
+
 
 	@GetMapping(value = "/add")
 	public String addAlbum(Model model) {

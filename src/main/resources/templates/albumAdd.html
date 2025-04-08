@@ -19,9 +19,16 @@
     <label for="coverImage">Cover Image URL:</label>
     <input type="text" th:field="*{coverImage}" id="coverImage" />
     <br/><br/>
+    <!-- artist & song -->
+    <label>Songs:</label><br/>
+    <select multiple th:field="*{songsOfAlbum}" size="5">
+        <option th:each="song : ${songs}" th:value="${song.songID}" th:text="${song.title}"></option>
+    </select><br/><br/>
 
-    <!-- Chưa xử lý phần artist & song -->
-
+    <label>Artists:</label><br/>
+    <select multiple th:field="*{artistsOfAlbum}" size="5">
+        <option th:each="artist : ${artists}" th:value="${artist.artistID}" th:text="${artist.artistName}"></option>
+    </select><br/><br/>
     <button type="submit">Add Album</button>
 </form>
 </body>
