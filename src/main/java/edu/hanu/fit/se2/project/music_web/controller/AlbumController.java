@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //1.	Create Album
 //2.	Get All Albums
@@ -84,12 +85,35 @@ public class AlbumController {
 		return "albumAdd";
 	}
 
-	@PostMapping(value = "/add")
+//	@PostMapping(value = "/add")
+//	public String addAlbum(Album album) {
+//		System.out.println(">>> Album name: " + album.getAlbumName());
+//		albumRepository.save(album);
+//		return "redirect:/album/list";
+//	}
+
+	@PostMapping("/add")
 	public String addAlbum(Album album) {
-		System.out.println(">>> Album name: " + album.getAlbumName());
+		List<Song> selectedSongs = songRepository.findAllById(album.getSongIds());
+
+		// lấy tất cả artist từ những bài hát
+		List<Artist> uniqueArtists = selectedSongs.stream()
+				.flatMap(song -> song.getArtistsOfSong().stream())
+				.collect(Collectors.toList());
+
+		// cập nhật album cho mỗi bài hát
+		for (Song song : selectedSongs) {
+			song.setAlbum(album);
+		}
+
+		album.setSongsOfAlbum(selectedSongs);
+		album.setArtistsOfAlbum(new ArrayList<>(uniqueArtists));
+
 		albumRepository.save(album);
 		return "redirect:/album/list";
 	}
+
+	//------------
 
 	@GetMapping(value = "/delete/{id}")
 	public String deleteAlbum(@PathVariable(value = "id") Long id) throws AlbumNotFoundException {
