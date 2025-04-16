@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Album List</h1>
+
 <div>
     <a href="/album/add">Add New Album</a>
 </div>
@@ -19,12 +20,27 @@
         <th>ID</th>
         <th>Name</th>
         <th>Release Date</th>
+        <th>Songs</th>
         <th>Actions</th>
     </tr>
     <tr th:each="album : ${albums}">
         <td th:text="${album.albumID}"></td>
         <td th:text="${album.albumName}"></td>
         <td th:text="${album.releaseDate}"></td>
+        <td>
+            <ul>
+                <li th:each="song : ${album.songsOfAlbum}">
+                    <span th:text="${song.title}"></span>
+                    <span th:if="${song.artistsOfSong != null and #lists.size(song.artistsOfSong) > 0}">
+                        (by
+                        <span th:each="artist, iterStat : ${song.artistsOfSong}">
+                            <span th:text="${artist.artistName}"></span><span th:if="${!iterStat.last}">, </span>
+                        </span>
+                        )
+                    </span>
+                </li>
+            </ul>
+        </td>
         <td>
             <a th:href="@{'/album/update/' + ${album.albumID}}">Edit</a>
             <a th:href="@{'/album/delete/' + ${album.albumID}}">Delete</a>

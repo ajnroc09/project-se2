@@ -33,7 +33,11 @@ public class AlbumController {
 	@GetMapping(value = "/list")
 	public String getAllAlbums(Model model) {
 		List<Album> albums = albumRepository.findAll();
+		List<Song> songs = songRepository.findAll();
+		List<Artist> artists = artistRepository.findAll();
 		model.addAttribute("albums", albums);
+		model.addAttribute("songs", songs);
+		model.addAttribute("artists", artists);
 		return "albumList";
 	}
 
